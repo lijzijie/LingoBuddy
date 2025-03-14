@@ -11,7 +11,7 @@ from services.database import Session, ChatMessage
 from config.settings import (
     DEEPSEEK_API_KEY, MAX_TOKEN, TEMPERATURE, MODEL, DEEPSEEK_BASE_URL, LISTEN_LIST, MAX_GROUPS, PROMPT_NAME, VOICE_DIR,
     AUTO_MESSAGE, MIN_COUNTDOWN_HOURS, MAX_COUNTDOWN_HOURS,
-    QUIET_TIME_START, QUIET_TIME_END, MINIMAX_VOICE_SETTINGS, MINIMAX_API_KEY, MINIMAX_TTS_URL, ENABLE_QUIET_TIME
+    QUIET_TIME_START, QUIET_TIME_END, MINIMAX_VOICE_SETTINGS, MINIMAX_API_KEY, MINIMAX_TTS_URL
 )
 from wxauto import WeChat
 import re
@@ -219,7 +219,7 @@ def get_random_countdown_time():
 
 def auto_send_message():
     """自动发送消息"""
-    if ENABLE_QUIET_TIME and is_quiet_time():
+    if is_quiet_time():
         logger.info("当前处于安静时间，跳过自动发送消息")
         start_countdown()
         return
