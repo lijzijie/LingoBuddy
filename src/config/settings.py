@@ -79,6 +79,7 @@ MINIMAX_VOICE_SETTINGS = {
 
 # 自动消息配置
 AUTO_MESSAGE = '请你模拟系统设置的角色，在微信上找对方发消息想知道对方在做什么'
+ENABLE_QUIET_TIME = False # 是否启用安静时间
 MIN_COUNTDOWN_HOURS = 1# 最小倒计时时间（小时）
 MAX_COUNTDOWN_HOURS = 3# 最大倒计时时间（小时）
 
