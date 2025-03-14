@@ -11,7 +11,7 @@ from services.database import Session, ChatMessage
 from config.settings import (
     DEEPSEEK_API_KEY, MAX_TOKEN, TEMPERATURE, MODEL, DEEPSEEK_BASE_URL, LISTEN_LIST, MAX_GROUPS, PROMPT_NAME, VOICE_DIR,
     AUTO_MESSAGE, MIN_COUNTDOWN_HOURS, MAX_COUNTDOWN_HOURS,
-    QUIET_TIME_START, QUIET_TIME_END, MINIMAX_VOICE_SETTINGS, MINIMAX_API_KEY, MINIMAX_TTS_URL
+    QUIET_TIME_START, QUIET_TIME_END, MINIMAX_VOICE_SETTINGS, MINIMAX_API_KEY, MINIMAX_TTS_URL, ENABLE_QUIET_TIME
 )
 from wxauto import WeChat
 import re
@@ -183,7 +183,6 @@ wait = 1
 # 全局变量
 last_chat_time = None
 countdown_timer = None
-is_countdown_running = False
 
 # 创建全局实例
 cleanup_utils = CleanupUtils(root_dir)
@@ -220,7 +219,7 @@ def get_random_countdown_time():
 
 def auto_send_message():
     """自动发送消息"""
-    if is_quiet_time():
+    if ENABLE_QUIET_TIME and is_quiet_time():
         logger.info("当前处于安静时间，跳过自动发送消息")
         start_countdown()
         return
@@ -246,7 +245,7 @@ def auto_send_message():
 
 def start_countdown():
     """开始新的倒计时"""
-    global countdown_timer, is_countdown_running
+    global countdown_timer
 
     if countdown_timer:
         countdown_timer.cancel()
@@ -257,7 +256,6 @@ def start_countdown():
     countdown_timer = threading.Timer(countdown_seconds, auto_send_message)
     countdown_timer.daemon = True  # 设置为守护线程
     countdown_timer.start()
-    is_countdown_running = True
 
 def message_listener():
     wx = None
